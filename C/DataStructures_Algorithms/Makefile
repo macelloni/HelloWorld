@@ -1,7 +1,7 @@
 TARGET := a.out
 MAIN_SRC := main.c
 
-DIRS := menu cli_io
+DIRS := menu cli_io sort
 OBJS :=
 
 ALL_OBJS := 
