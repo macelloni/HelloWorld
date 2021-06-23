@@ -1,0 +1,25 @@
+MAKEFLAGS += --no-print-directory
+MAKEFLAGS += -s
+
+# compile macro
+CC := gcc
+
+CCFLAGS := 
+OBJCCFLAGS := $(CCFLAGS) -c
+
+.PHONY: build-subdirs
+build-subdirs: $(DIRS)
+
+.PHONY: $(DIRS)
+$(DIRS):
+	@$(MAKE) -C $@ all
+	
+.PHONY: clean-subdirs
+clean-subdirs:
+	@for dir in $(DIRS); do \
+		$(MAKE) -C $$dir clean; \
+	done
+
+%.o: %.c*
+	@echo -e "\t" CC $(OBJCCFLAGS) $< -o $@
+	@$(CC) $(OBJCCFLAGS) $< -o $@
