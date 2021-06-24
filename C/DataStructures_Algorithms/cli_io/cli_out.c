@@ -84,6 +84,7 @@ void displaySortResult(sortResult result)
             break;
         case QuickSort:
             strcpy(method, "Quick Sort");
+            break;
         case HeapSort:
             strcpy(method, "Heap Sort");
             break;
