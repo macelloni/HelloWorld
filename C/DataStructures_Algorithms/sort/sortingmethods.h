@@ -17,6 +17,7 @@ void _merge(intArray *arr, int lowerIndex, int middleIndex, int higherIndex);
 void _quickSort(intArray *arr, int lowerIndex, int higherIndex);
 int _partition(intArray *arr, int lowerIndex, int higherIndex);
 
-// ... heapsort;
+void _heapSort(intArray *arr);
+void _heapify(intArray *arr, int len, int i);
 
 #endif

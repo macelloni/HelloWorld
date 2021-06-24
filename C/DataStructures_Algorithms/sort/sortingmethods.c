@@ -1,5 +1,11 @@
 #include "sortingmethods.h"
-// #include "../datastructures/binarytrees.h"
+
+void _swap(int *a, int *b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
 
 void _bubbleSort(intArray *arr, sortLog *log)
 {
@@ -72,7 +78,7 @@ void _insertionSort(intArray *arr, sortLog *log)
     }
 }
 
-void _shellSort(intArray *arr, sortLog *log)    // At the moment, log is limited; Might require refactor
+void _shellSort(intArray *arr, sortLog *log) // At the moment, log is limited; Might require refactor
 {
     for (int gap = arr->len / 2; gap > 0; gap = gap / 2)
     {
@@ -188,9 +194,41 @@ int _partition(intArray *arr, int lowerIndex, int higherIndex)
     return i + 1;
 }
 
-void _swap(int *a, int *b)
+void _heapSort(intArray *arr)
 {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+    for (int i = arr->len / 2 - 1; i >= 0; i--) // For now, will be placed here
+    {
+        {
+            _heapify(arr, arr->len, i);
+        }
+    }
+
+    for (int i = arr->len - 1; i > 0; i--)
+    {
+        _swap(&arr->data[0], &arr->data[i]);
+        _heapify(arr, i, 0);
+    }
+}
+
+void _heapify(intArray *arr, int len, int i) // For now, will be placed here
+{
+    int lChildIndex = 2 * i + 1;
+    int rChildIndex = 2 * i + 2;
+    int highest = i;
+
+    if (lChildIndex < len && arr->data[lChildIndex] > arr->data[highest])
+    {
+        highest = lChildIndex;
+    }
+
+    if (rChildIndex < len && arr->data[rChildIndex] > arr->data[highest])
+    {
+        highest = rChildIndex;
+    }
+
+    if (highest != i)
+    {
+        _swap(&arr->data[i], &arr->data[highest]);
+        _heapify(arr, len, highest);
+    }
 }
