@@ -40,6 +40,6 @@ show-info:
 
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 export PROJECT_PATH := $(patsubst %/,%,$(dir $(mkfile_path)))
-export MAKE_INCLUDE=$(PROJECT_PATH)/makeconfig/make.global
-export SUB_MAKE_INCLUDE=$(PROJECT_PATH)/makeconfig/submake.global
+export MAKE_INCLUDE=$(PROJECT_PATH)/.buildconfig/make.global
+export SUB_MAKE_INCLUDE=$(PROJECT_PATH)/.buildconfig/submake.global
 include $(MAKE_INCLUDE)
