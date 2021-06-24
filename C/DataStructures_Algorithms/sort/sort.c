@@ -39,6 +39,47 @@ sortResult sort_byBubble(intArray input)
     return out;
 }
 
+sortResult sort_bySelection(intArray input)
+{
+    sortResult out = _initSortResult(input, SelectionSort);
+    clock_t start = clock();
+
+    _selectionSort(&out.arr, &out.log);
+
+    clock_t end = clock();
+    out.log.duration = _formatTime(start, end);
+
+    return out;
+}
+
+sortResult sort_byInsertion(intArray input)
+{
+    sortResult out = _initSortResult(input, InsertionSort);
+    clock_t start = clock();
+
+    _insertionSort(&out.arr, &out.log);
+
+    clock_t end = clock();
+    out.log.duration = _formatTime(start, end);
+
+    return out;
+}
+
+/*
+sortResult sort_byShellsMethod(intArray input)
+{
+    sortResult out = _initSortResult(input, ShellSort);
+    clock_t start = clock();
+
+    _shellSort(&out.arr, &out.log);
+
+    clock_t end = clock();
+    out.log.duration = _formatTime(start, end);
+
+    return out;
+}
+*/
+
 double _formatTime(clock_t start, clock_t end)
 {
     return ((double)(end - start)) / CLOCKS_PER_SEC;

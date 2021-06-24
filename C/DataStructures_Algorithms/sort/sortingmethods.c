@@ -5,25 +5,24 @@ void _bubbleSort(intArray *arr, sortLog *log)
 {
     for (int i = 0; i < (arr->len - 1); i++)
     {
-        log->iterations++;
-
         for (int j = i + 1; j < arr->len; j++)
         {
-            log->iterations++;
-            
             if (arr->data[i] > arr->data[j])
             {
-                log->ifblocks++;
-
                 _swap(&arr->data[i], &arr->data[j]);
 
+                log->ifblocks++;
                 log->swaps++;
             }
+
+            log->iterations++;
         }
+
+        log->iterations++;
     }
 }
 
-void _selectionSort(intArray *arr)
+void _selectionSort(intArray *arr, sortLog *log)
 {
     for (int i = 0; i < (arr->len - 1); i++)
     {
@@ -34,17 +33,26 @@ void _selectionSort(intArray *arr)
             if (arr->data[j] < arr->data[minIndex])
             {
                 minIndex = j;
+
+                log->ifblocks++;
             }
+
+            log->iterations++;
         }
 
         if (i != minIndex)
         {
             _swap(&arr->data[i], &arr->data[minIndex]);
+
+            log->ifblocks++;
+            log->swaps++;
         }
+
+        log->iterations++;
     }
 }
 
-void _insertionSort(intArray *arr)
+void _insertionSort(intArray *arr, sortLog *log)
 {
     for (int i = 1; i < arr->len; i++)
     {
@@ -54,7 +62,13 @@ void _insertionSort(intArray *arr)
         {
             _swap(&arr->data[j], &arr->data[j - 1]);
             j--;
+
+            log->swaps++;
+            log->ifblocks++;
+            log->iterations++;
         }
+
+        log->iterations++;
     }
 }
 
