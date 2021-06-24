@@ -72,22 +72,28 @@ void _insertionSort(intArray *arr, sortLog *log)
     }
 }
 
-void _shellSort(intArray *arr)
+void _shellSort(intArray *arr, sortLog *log)    // At the moment, log is limited; Might require refactor
 {
     for (int gap = arr->len / 2; gap > 0; gap = gap / 2)
     {
         for (int i = gap; i < arr->len; i++)
         {
             int temp = arr->data[i];
-
             int j = i;
+
             for (j; j >= gap && arr->data[j - gap] > temp; j -= gap)
             {
-                arr->data[j] = arr->data[j - gap];
+                _swap(&arr->data[j], &arr->data[j - gap]);
+
+                log->ifblocks++;
+                log->swaps++;
             }
 
             arr->data[j] = temp;
+            log->iterations++;
         }
+
+        log->iterations++;
     }
 }
 

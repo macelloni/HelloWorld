@@ -34,6 +34,7 @@ typedef struct SortResult
 sortResult sort_byBubble(intArray input);
 sortResult sort_bySelection(intArray input);
 sortResult sort_byInsertion(intArray input);
+sortResult sort_byShellsMethod(intArray input);
 
 sortResult _initSortResult(intArray input, methodEmployed arg);
 double _formatTime(clock_t start, clock_t end);
