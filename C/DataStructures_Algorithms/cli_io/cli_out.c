@@ -40,16 +40,63 @@ void displayArray(intArray arr, arr_ViewMode mode)
         break;
     }
 
-    printf("Displaying %s\n\n", arr.name);
+    printf("  Displaying %s\n\n", arr.name);
 
     if (mode == SingleLine)
     {
         printf("   ");
     }
-    
+
     for (int i = 0; i < arr.len - 1; i++)
     {
         printf("%s%d%s", prefix, arr.data[i], separator);
     }
     printf("%s%d\n\n", prefix, arr.data[arr.len - 1]);
+}
+
+void displaySortResult(sortResult result)
+{
+    displayArray(result.arr, SingleLine);
+
+    printf("  Sort Data: ");
+
+    if (result.log.method)
+    {
+        printf("\n");
+        char method[32 + 1];
+
+        switch (result.log.method)
+        {
+        case BubbleSort:
+            strcpy(method, "Bubble Sort");
+            break;
+        case SelectionSort:
+            strcpy(method, "Selection Sort");
+            break;
+        case InsertionSort:
+            strcpy(method, "Insertion Sort");
+            break;
+        case ShellSort:
+            strcpy(method, "Shell Sort");
+            break;
+        case MergeSort:
+            strcpy(method, "Merge Sort");
+            break;
+        case QuickSort:
+            strcpy(method, "Quick Sort");
+        case HeapSort:
+            strcpy(method, "Heap Sort");
+            break;
+        }
+
+        printf("    Method             : %s\n", method);
+        printf("    Time               : %f seconds\n", result.log.duration);
+        printf("    # of iterations    : %d\n", result.log.iterations);
+        printf("    If-blocks executed : %d\n", result.log.ifblocks);
+        printf("    # of swaps         : %d\n", result.log.swaps);
+    }
+    else
+    {
+        printf("Array was not sorted yet.");
+    }
 }

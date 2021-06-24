@@ -1,12 +1,12 @@
 #ifndef SORT_H
 #define SORT_H
 
+#include <time.h>
 #include "intarray.h"
 
-/*
-typedef enum SortMethod
+typedef enum MethodEmployed
 {
-    Unsorted,
+    Unsorted = 0,
     BubbleSort,
     SelectionSort,
     InsertionSort,
@@ -14,14 +14,15 @@ typedef enum SortMethod
     MergeSort,
     QuickSort,
     HeapSort
-} sortMethod;
+} methodEmployed;
 
 typedef struct SortLog
 {
-    sortMethod method;
-    float duration;
-    int iterations;
-    int swaps;
+    methodEmployed method;
+    double duration;
+    unsigned int ifblocks;
+    unsigned int iterations;
+    unsigned int swaps;
 } sortLog;
 
 typedef struct SortResult
@@ -29,20 +30,10 @@ typedef struct SortResult
     intArray arr;
     sortLog log;
 } sortResult;
-*/
 
-void sort_byBubble(intArray *arr);
-void sort_bySelection(intArray *arr);
-void sort_byInsertion(intArray *arr);
-void sort_ShellsMethod(intArray *arr);
-// void sort_byMerge(intArray *arr);
-// void sort_Quick(intArray *arr);
-// void sort_Heap(intArray *arr);
+sortResult sort_byBubble(intArray input);
 
-void _mergeSort(intArray *arr, int lowerIndex, int higherIndex);
-void _merge(intArray *arr, int lowerIndex, int middleIndex, int higherIndex);
-void _quickSort(intArray *arr, int lowerIndex, int higherIndex);
-int _partition(intArray *arr, int lowerIndex, int higherIndex);
-void _swap(int *a, int *b);
+sortResult _initSortResult(intArray input, methodEmployed arg);
+double _formatTime(clock_t start, clock_t end);
 
 #endif

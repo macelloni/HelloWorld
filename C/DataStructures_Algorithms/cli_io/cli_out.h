@@ -3,6 +3,7 @@
 
 #include "../menu/menu.h"
 #include "../sort/intarray.h"
+#include "../sort/sort.h"
 
 typedef enum DisplayArrayArgument
 {
@@ -12,5 +13,6 @@ typedef enum DisplayArrayArgument
 
 void displayMenu(menu m);
 void displayArray(intArray arr, arr_ViewMode mode);
+void displaySortResult(sortResult result);
 
 #endif
