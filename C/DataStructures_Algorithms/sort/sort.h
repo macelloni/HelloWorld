@@ -16,7 +16,7 @@ typedef enum MethodEmployed
     HeapSort
 } methodEmployed;
 
-typedef struct SortLog
+typedef struct SortLog // Requires improvements in concept and implementation
 {
     methodEmployed method;
     double duration;
@@ -35,6 +35,9 @@ sortResult sort_byBubble(intArray input);
 sortResult sort_bySelection(intArray input);
 sortResult sort_byInsertion(intArray input);
 sortResult sort_byShellsMethod(intArray input);
+sortResult sort_byMerge(intArray input);
+sortResult sort_Quick(intArray input);
+sortResult sort_Heap(intArray input);
 
 sortResult _initSortResult(intArray input, methodEmployed arg);
 double _formatTime(clock_t start, clock_t end);

@@ -11,13 +11,17 @@ void _selectionSort(intArray *arr, sortLog *log);
 void _insertionSort(intArray *arr, sortLog *log);
 void _shellSort(intArray *arr, sortLog *log);
 
-void _mergeSort(intArray *arr, int lowerIndex, int higherIndex);
-void _merge(intArray *arr, int lowerIndex, int middleIndex, int higherIndex);
+void _mergeSort(intArray *arr, sortLog *log, int lowerIndex,
+                int higherIndex);
+void _merge(intArray *arr, sortLog *log, int lowerIndex,
+            int middleIndex, int higherIndex);
 
-void _quickSort(intArray *arr, int lowerIndex, int higherIndex);
-int _partition(intArray *arr, int lowerIndex, int higherIndex);
+void _quickSort(intArray *arr, sortLog *log, int lowerIndex,
+                int higherIndex);
+int _partition(intArray *arr, sortLog *log, int lowerIndex,
+               int higherIndex);
 
-void _heapSort(intArray *arr);
-void _heapify(intArray *arr, int len, int i);
+void _heapSort(intArray *arr, sortLog *log);
+void _heapify(intArray *arr, sortLog *log, int len, int i);
 
 #endif

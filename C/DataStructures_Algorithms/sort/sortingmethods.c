@@ -103,19 +103,25 @@ void _shellSort(intArray *arr, sortLog *log) // At the moment, log is limited; M
     }
 }
 
-void _mergeSort(intArray *arr, int lowerIndex, int higherIndex)
+void _mergeSort(intArray *arr, sortLog *log, int lowerIndex,
+                int higherIndex)
 {
     if (lowerIndex < higherIndex)
     {
         int middleIndex = lowerIndex + (higherIndex - lowerIndex) / 2;
 
-        _mergeSort(arr, lowerIndex, middleIndex);
-        _mergeSort(arr, middleIndex + 1, higherIndex);
-        _merge(arr, lowerIndex, middleIndex, higherIndex);
+        _mergeSort(arr, log, lowerIndex, middleIndex);
+        _mergeSort(arr, log, middleIndex + 1, higherIndex);
+        _merge(arr, log, lowerIndex, middleIndex, higherIndex);
+
+        log->ifblocks++;
     }
+
+    log->iterations++;
 }
 
-void _merge(intArray *arr, int lowerIndex, int middleIndex, int higherIndex)
+void _merge(intArray *arr, sortLog *log, int lowerIndex,
+            int middleIndex, int higherIndex)
 {
     int lowerBound = middleIndex - lowerIndex + 1;
     int upperBound = higherIndex - middleIndex;
@@ -125,10 +131,14 @@ void _merge(intArray *arr, int lowerIndex, int middleIndex, int higherIndex)
     for (int i = 0; i < lowerBound; i++)
     {
         localLowerArr[i] = arr->data[lowerIndex + i];
+
+        log->iterations++;
     }
     for (int i = 0; i < upperBound; i++)
     {
         localUpperArr[i] = arr->data[middleIndex + i + 1];
+
+        log->iterations++;
     }
 
     int i = 0;
@@ -148,6 +158,10 @@ void _merge(intArray *arr, int lowerIndex, int middleIndex, int higherIndex)
         }
 
         k++;
+
+        log->ifblocks++;
+        log->iterations++;
+        log->swaps++;
     }
 
     while (i < lowerBound)
@@ -155,27 +169,39 @@ void _merge(intArray *arr, int lowerIndex, int middleIndex, int higherIndex)
         arr->data[k] = localLowerArr[i];
         i++;
         k++;
+
+        log->ifblocks++;
+        log->swaps++;
     }
     while (j < upperBound)
     {
         arr->data[k] = localUpperArr[j];
         j++;
         k++;
+
+        log->ifblocks++;
+        log->swaps++;
     }
 }
 
-void _quickSort(intArray *arr, int lowerIndex, int higherIndex)
+void _quickSort(intArray *arr, sortLog *log, int lowerIndex,
+                int higherIndex)
 {
     if (lowerIndex < higherIndex)
     {
-        int partitioningIndex = _partition(arr, lowerIndex, higherIndex);
+        int partitioningIndex = _partition(arr, log, lowerIndex, higherIndex);
 
-        _quickSort(arr, lowerIndex, partitioningIndex - 1);
-        _quickSort(arr, partitioningIndex + 1, higherIndex);
+        _quickSort(arr, log, lowerIndex, partitioningIndex - 1);
+        _quickSort(arr, log, partitioningIndex + 1, higherIndex);
+
+        log->ifblocks++;
     }
+
+    log->iterations++;
 }
 
-int _partition(intArray *arr, int lowerIndex, int higherIndex)
+int _partition(intArray *arr, sortLog *log, int lowerIndex,
+               int higherIndex)
 {
     int pivot = arr->data[higherIndex];
     int i = lowerIndex - 1;
@@ -186,31 +212,40 @@ int _partition(intArray *arr, int lowerIndex, int higherIndex)
         {
             i++;
             _swap(&arr->data[i], &arr->data[j]);
+
+            log->swaps++;
+            log->ifblocks++;
         }
+
+        log->iterations++;
     }
 
     _swap(&arr->data[i + 1], &arr->data[higherIndex]);
+    log->swaps++;
 
     return i + 1;
 }
 
-void _heapSort(intArray *arr)
+void _heapSort(intArray *arr, sortLog *log)
 {
     for (int i = arr->len / 2 - 1; i >= 0; i--) // For now, will be placed here
     {
-        {
-            _heapify(arr, arr->len, i);
-        }
+        _heapify(arr, log, arr->len, i);
+
+        log->iterations++;
     }
 
     for (int i = arr->len - 1; i > 0; i--)
     {
         _swap(&arr->data[0], &arr->data[i]);
-        _heapify(arr, i, 0);
+        _heapify(arr, log, i, 0);
+
+        log->swaps++;
+        log->iterations++;
     }
 }
 
-void _heapify(intArray *arr, int len, int i) // For now, will be placed here
+void _heapify(intArray *arr, sortLog *log, int len, int i) // For now, will be placed here
 {
     int lChildIndex = 2 * i + 1;
     int rChildIndex = 2 * i + 2;
@@ -219,16 +254,23 @@ void _heapify(intArray *arr, int len, int i) // For now, will be placed here
     if (lChildIndex < len && arr->data[lChildIndex] > arr->data[highest])
     {
         highest = lChildIndex;
+
+        log->ifblocks++;
     }
 
     if (rChildIndex < len && arr->data[rChildIndex] > arr->data[highest])
     {
         highest = rChildIndex;
+
+        log->ifblocks++;
     }
 
     if (highest != i)
     {
         _swap(&arr->data[i], &arr->data[highest]);
-        _heapify(arr, len, highest);
+        _heapify(arr, log, len, highest);
+
+        log->swaps++;
+        log->ifblocks++;
     }
 }
