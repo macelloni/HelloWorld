@@ -40,8 +40,6 @@ void displayArray(intArray arr, arr_ViewMode mode)
         break;
     }
 
-    printf("  Displaying %s\n\n", arr.name);
-
     if (mode == SingleLine)
     {
         printf("   ");

@@ -3,12 +3,9 @@
 
 #include "intarray.h"
 
-intArray create_IntArray(char *id, int len)
+intArray create_IntArray(int len)
 {
     intArray out;
-
-    out.name = malloc(strlen(id) * sizeof(char));
-    strcpy(out.name, id);
 
     out.data = malloc(len * sizeof(int));
     out.len = len;
@@ -16,9 +13,9 @@ intArray create_IntArray(char *id, int len)
     return out;
 }
 
-intArray create_RandArray(char *id, int len, int ceil)
+intArray create_RandArray(int len, int ceil)
 {
-    intArray out = create_IntArray(id, len);
+    intArray out = create_IntArray(len);
 
     for (int i = 0; i < out.len; i++)
     {
@@ -30,6 +27,5 @@ intArray create_RandArray(char *id, int len, int ceil)
 
 void destroy_IntArray(intArray *arr)
 {
-    free(arr->name);
     free(arr->data);
 }

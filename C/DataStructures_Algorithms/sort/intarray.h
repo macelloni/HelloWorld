@@ -8,8 +8,8 @@ typedef struct IntArray
     int len;
 } intArray;
 
-intArray create_IntArray(char *id, int len);
-intArray create_RandArray(char *id, int len, int ceil);
+intArray create_IntArray(int len);
+intArray create_RandArray(int len, int ceil);
 void destroy_IntArray(intArray *arr);
 
 #endif

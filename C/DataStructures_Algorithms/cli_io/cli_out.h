@@ -14,6 +14,8 @@ typedef enum DisplayArrayArgument
 
 void displayMenu(menu m);
 
+// Below: To be modularized in ./x_out.c and ./x_out.h
+
 void displayArray(intArray arr, arr_ViewMode mode);
 void displaySortResult(sortResult result);
 
