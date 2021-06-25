@@ -4,6 +4,7 @@
 #include "../menu/menu.h"
 #include "../sort/intarray.h"
 #include "../sort/sort.h"
+#include "../graph/graph.h"
 
 typedef enum DisplayArrayArgument
 {
@@ -12,7 +13,12 @@ typedef enum DisplayArrayArgument
 } arr_ViewMode;
 
 void displayMenu(menu m);
+
 void displayArray(intArray arr, arr_ViewMode mode);
 void displaySortResult(sortResult result);
+
+void displayGraphAdj(int order, graphVertex *nodes);
+void _displayVtxList(int order, graphVertex *nodes);
+void _displayVtxAdj(int order, graphVertex v);
 
 #endif

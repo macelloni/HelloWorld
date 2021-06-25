@@ -101,3 +101,37 @@ void displaySortResult(sortResult result)
         printf("Array was not sorted yet.");
     }
 }
+
+void displayGraphAdj(int order, graphVertex *nodes)
+{
+    printf("    Adjacency Matrix: \n\n");
+
+    _displayVtxList(order, nodes);
+    for (int i = 0; i < order; i++)
+    {
+        printf("\n");
+        _displayVtxAdj(order, nodes[i]);
+    }
+
+    printf("\n\n");
+}
+
+void _displayVtxList(int order, graphVertex *nodes)
+{
+    printf("           ");
+
+    for (int i = 0; i < order; i++)
+    {
+
+        printf("%s  ", nodes[i].label);
+    }
+}
+
+void _displayVtxAdj(int order, graphVertex v)
+{
+    printf("       %s  ", v.label);
+    for (int i = 0; i < order; i++)
+    {
+        printf("%d   ", v.adjacency[i]);
+    }
+}
