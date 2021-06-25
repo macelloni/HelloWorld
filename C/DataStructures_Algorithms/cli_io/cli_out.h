@@ -5,6 +5,7 @@
 #include "../sort/intarray.h"
 #include "../sort/sort.h"
 #include "../graph/graph.h"
+#include "../datastructures/linkedlist.h"
 
 typedef enum DisplayArrayArgument
 {
@@ -22,5 +23,10 @@ void displaySortResult(sortResult result);
 void displayGraphAdj(int order, graphVertex *nodes);
 void _displayVtxList(int order, graphVertex *nodes);
 void _displayVtxAdj(int order, graphVertex v);
+
+void displayLinkedList(linkedList list);
+void _displayLNode(linkableNode *ln);
+void _displayList(linkedList list);
+void _displayCircList(linkedList list);
 
 #endif
