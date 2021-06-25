@@ -7,6 +7,12 @@ void _swap(int *a, int *b)
     *b = temp;
 }
 
+/*
+     ON HOLD:
+     Until refactoring in C++, there is little cost/benefit in
+     investing more time improving sortLog functionalities
+*/
+
 void _bubbleSort(intArray *arr, sortLog *log)
 {
     for (int i = 0; i < (arr->len - 1); i++)
@@ -78,7 +84,7 @@ void _insertionSort(intArray *arr, sortLog *log)
     }
 }
 
-void _shellSort(intArray *arr, sortLog *log) // At the moment, log is limited; Might require refactor
+void _shellSort(intArray *arr, sortLog *log)
 {
     for (int gap = arr->len / 2; gap > 0; gap = gap / 2)
     {
@@ -96,6 +102,7 @@ void _shellSort(intArray *arr, sortLog *log) // At the moment, log is limited; M
             }
 
             arr->data[j] = temp;
+
             log->iterations++;
         }
 
@@ -134,6 +141,7 @@ void _merge(intArray *arr, sortLog *log, int lowerIndex,
 
         log->iterations++;
     }
+
     for (int i = 0; i < upperBound; i++)
     {
         localUpperArr[i] = arr->data[middleIndex + i + 1];
@@ -221,6 +229,7 @@ int _partition(intArray *arr, sortLog *log, int lowerIndex,
     }
 
     _swap(&arr->data[i + 1], &arr->data[higherIndex]);
+
     log->swaps++;
 
     return i + 1;
@@ -228,7 +237,7 @@ int _partition(intArray *arr, sortLog *log, int lowerIndex,
 
 void _heapSort(intArray *arr, sortLog *log)
 {
-    for (int i = arr->len / 2 - 1; i >= 0; i--) // For now, will be placed here
+    for (int i = arr->len / 2 - 1; i >= 0; i--)
     {
         _heapify(arr, log, arr->len, i);
 
@@ -245,7 +254,7 @@ void _heapSort(intArray *arr, sortLog *log)
     }
 }
 
-void _heapify(intArray *arr, sortLog *log, int len, int i) // For now, will be placed here
+void _heapify(intArray *arr, sortLog *log, int len, int i)
 {
     int lChildIndex = 2 * i + 1;
     int rChildIndex = 2 * i + 2;
@@ -270,6 +279,7 @@ void _heapify(intArray *arr, sortLog *log, int len, int i) // For now, will be p
         _swap(&arr->data[i], &arr->data[highest]);
         _heapify(arr, log, len, highest);
 
+        log->iterations++;
         log->swaps++;
         log->ifblocks++;
     }
