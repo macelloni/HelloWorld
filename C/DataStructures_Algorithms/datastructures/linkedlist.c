@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include "linkedlist.h"
-#include <stdio.h>
 
 linkableNode *create_LinkableNode(int dataInput)
 {
@@ -13,7 +12,7 @@ linkableNode *create_LinkableNode(int dataInput)
     return out;
 }
 
-linkedList create_LinkedList(int maxSize, char *label, listType type)
+linkedList create_LinkedList(int maxSize, listType type)
 {
     linkedList out;
 
@@ -30,14 +29,15 @@ linkedList create_LinkedList(int maxSize, char *label, listType type)
     return out;
 }
 
-int listInsert(linkedList *list, linkableNode *input)
+int push(linkedList *list, linkableNode *input)
 {
-    int result;
+    int result = 0;
 
     if (list->len == 0)
     {
-        _assignHead(list, input);
+        _assignFirst(list, input);
 
+        list->len++;
         result = 1;
     }
     else if (list->len + 1 <= list->_maxLen)
@@ -45,27 +45,83 @@ int listInsert(linkedList *list, linkableNode *input)
         switch (list->type)
         {
         case SinglyLinkedList:
-            _base_ListInsert(list, input);
+            _base_PushFront(list, input);
             break;
+
         case CircularList:
-            _circ_ListInsert(list, input);
+            _circ_PushFront(list, input);
             break;
+
         case DoublyLinkedList:
-            _doubly_ListInsert(list, input);
+            _doubly_PushFront(list, input);
             break;
+
         case DoublyCircularList:
-            _doublycirc_ListInsert(list, input);
+            _doublycirc_PushFront(list, input);
             break;
         }
 
+        list->len++;
         result = 1;
-    }
-    else
-    {
-        result = 0;
     }
 
     return result;
+}
+
+int pushBack(linkedList *list, linkableNode *input)
+{
+    int result = 0;
+
+    if (list->len == 0)
+    {
+        _assignFirst(list, input);
+
+        list->len++;
+        result = 1;
+    }
+    else if (list->len + 1 <= list->_maxLen)
+    {
+        switch (list->type)
+        {
+        case SinglyLinkedList:
+            _base_PushBack(list, input);
+            break;
+
+        case CircularList:
+            _circ_PushBack(list, input);
+            break;
+
+        case DoublyLinkedList:
+            _doubly_PushBack(list, input);
+            break;
+
+        case DoublyCircularList:
+            _doublycirc_PushBack(list, input);
+            break;
+        }
+
+        list->len++;
+        result = 1;
+    }
+
+    return result;
+}
+
+linkableNode *peek(linkedList *list, listBounds position)
+{
+    linkableNode *out;
+
+    switch (position)
+    {
+    case Front:
+        out = *list->head;
+        break;
+    case Back:
+        out = *list->tail;
+        break;
+    }
+
+    return out;
 }
 
 linkableNode *listFind(linkedList *list, int queryData)
@@ -90,6 +146,75 @@ linkableNode *listFind(linkedList *list, int queryData)
     }
 
     return out;
+}
+
+int popFront(linkedList *list)
+{
+    int result = 0;
+
+    if (list->len > 0)
+    {
+        linkableNode *localPtr = *list->head;
+
+        switch (list->type)
+        {
+        case SinglyLinkedList:
+            _base_PopFront(list);
+            break;
+
+        case CircularList:
+            _circ_PopFront(list);
+            break;
+
+        case DoublyLinkedList:
+            _doubly_PopFront(list);
+            break;
+
+        case DoublyCircularList:
+            _doublycirc_PopFront(list);
+            break;
+        }
+
+        list->len--;
+        free(localPtr);
+        result = 1;
+    }
+
+    return result;
+}
+
+int popBack(linkedList *list)
+{
+    int result = 0;
+
+    if (list->len > 0)
+    {
+        linkableNode *localPtr = *list->tail;
+
+        switch (list->type)
+        {
+        case SinglyLinkedList:
+            _base_PopBack(list);
+            break;
+
+        case CircularList:
+            _circ_PopBack(list);
+            break;
+        case DoublyLinkedList:
+            _doubly_PopBack(list);
+
+            break;
+        case DoublyCircularList:
+            _doublycirc_PopBack(list);
+            break;
+        }
+
+        list->len--;
+        free(localPtr);
+        result = 1;
+    }
+
+    return result;
 }
 
 int listRemove(linkedList *list, int queryData)
@@ -145,7 +270,7 @@ void destroy_LinkedList(linkedList *list)
         {
             free(pointers[i]);
         }
-        
+
         free(*list->head);
         free(*list->tail);
     }
@@ -154,39 +279,115 @@ void destroy_LinkedList(linkedList *list)
     free(list->tail);
 }
 
-void _assignHead(linkedList *list, linkableNode *input)
+void _assignFirst(linkedList *list, linkableNode *input)
 {
     *list->head = input;
     *list->tail = input;
-
-    list->len++;
 }
 
-void _base_ListInsert(linkedList *list, linkableNode *input)
+void _base_PushFront(linkedList *list, linkableNode *input)
+{
+    input->next = *list->head;
+    *list->head = input;
+}
+
+void _circ_PushFront(linkedList *list, linkableNode *input)
+{
+    _base_PushFront(list, input);
+    (*list->tail)->next = input;
+}
+
+void _doubly_PushFront(linkedList *list, linkableNode *input)
+{
+    (*list->head)->previous = input;
+    _base_PushFront(list, input);
+}
+
+void _doublycirc_PushFront(linkedList *list, linkableNode *input)
+{
+    _doubly_PushFront(list, input);
+    (*list->head)->previous = *list->tail;
+    (*list->tail)->next = *list->head;
+}
+
+void _base_PushBack(linkedList *list, linkableNode *input)
 {
     (*list->tail)->next = input;
     *list->tail = input;
-
-    list->len++;
 }
 
-void _circ_ListInsert(linkedList *list, linkableNode *input)
+void _circ_PushBack(linkedList *list, linkableNode *input)
 {
     input->next = *list->head;
-    _base_ListInsert(list, input);
+    _base_PushBack(list, input);
 }
 
-void _doubly_ListInsert(linkedList *list, linkableNode *input)
+void _doubly_PushBack(linkedList *list, linkableNode *input)
 {
     input->previous = *list->tail;
-    _base_ListInsert(list, input);
+    _base_PushBack(list, input);
 }
 
-void _doublycirc_ListInsert(linkedList *list, linkableNode *input)
+void _doublycirc_PushBack(linkedList *list, linkableNode *input)
 {
-    _doubly_ListInsert(list, input);
+    _doubly_PushBack(list, input);
     (*list->head)->previous = *list->tail;
     (*list->tail)->next = *list->head;
+}
+
+void _base_PopFront(linkedList *list)
+{
+    *list->head = (*list->head)->next;
+}
+
+void _circ_PopFront(linkedList *list)
+{
+    _base_PopFront(list);
+    *list->tail = *list->head;
+}
+
+void _doubly_PopFront(linkedList *list)
+{
+    _base_PopFront(list);
+    (*list->head)->previous = NULL;
+}
+
+void _doublycirc_PopFront(linkedList *list)
+{
+    _base_PopFront(list);
+    (*list->tail)->next = *list->head;
+    (*list->head)->previous = *list->tail;
+}
+
+void _base_PopBack(linkedList *list)
+{
+    linkableNode *newTail = *list->head;
+
+    while (newTail->next != *list->tail)
+    {
+        newTail = newTail->next;
+    }
+
+    newTail->next = NULL;
+    *list->tail = newTail;
+}
+
+void _circ_PopBack(linkedList *list)
+{
+    _base_PopBack(list);
+    (*list->tail)->next = *list->head;
+}
+
+void _doubly_PopBack(linkedList *list)
+{
+    *list->tail = (*list->tail)->previous;
+}
+
+void _doublycirc_PopBack(linkedList *list)
+{
+    _doubly_PopBack(list);
+    (*list->tail)->next = *list->head;
+    (*list->head)->previous = *list->tail;
 }
 
 void _singly_ListRemove(linkedList *list, linkableNode *target)
