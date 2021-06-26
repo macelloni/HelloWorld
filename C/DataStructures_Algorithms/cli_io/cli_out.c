@@ -2,6 +2,8 @@
 #include <string.h>
 
 #include "cli_out.h"
+#include "graph_out.h"
+#include "linkedlist_out.h"
 
 void displayMenu(menu m)
 {
@@ -114,26 +116,6 @@ void displayGraphAdj(int order, graphVertex *nodes)
     printf("\n\n");
 }
 
-void _displayVtxList(int order, graphVertex *nodes)
-{
-    printf("           ");
-
-    for (int i = 0; i < order; i++)
-    {
-
-        printf("%s  ", nodes[i].label);
-    }
-}
-
-void _displayVtxAdj(int order, graphVertex v)
-{
-    printf("       %s  ", v.label);
-    for (int i = 0; i < order; i++)
-    {
-        printf("%d   ", v.adjacency[i]);
-    }
-}
-
 void displayLinkedList(linkedList list)
 {
     if (list.type == SinglyLinked || list.type == DoublyLinked)
@@ -143,56 +125,5 @@ void displayLinkedList(linkedList list)
     else if (list.type == Circular || list.type == DoublyCircular)
     {
         _displayCircList(list);
-    }
-}
-
-void _displayLNode(linkableNode *ln)
-{
-    printf("Node value: %d\n", ln->data);
-
-    char previousData[32 + 1];
-    char nextData[32 + 1];
-
-    if (ln->previous != NULL)
-    {
-        sprintf(previousData, "    Previous: %d", ln->previous->data);
-    }
-    else
-    {
-        sprintf(previousData, "    Previous: Null");
-    }
-
-    if (ln->next != NULL)
-    {
-        sprintf(nextData, "    Next: %d", ln->next->data);
-    }
-    else
-    {
-        sprintf(nextData, "    Next: Null");
-    }
-
-    printf("%s%s", previousData, nextData);
-    printf("\n");
-}
-
-void _displayList(linkedList list)
-{
-    for (linkableNode *current = *list.head;
-         current != (*list.tail)->next;
-         current = current->next)
-    {
-        _displayLNode(current);
-    }
-}
-
-void _displayCircList(linkedList list)
-{
-    _displayLNode(*list.head);
-    
-    for (linkableNode *current = (*list.head)->next;
-         current != (*list.tail)->next;
-         current = current->next)
-    {
-        _displayLNode(current);
     }
 }
