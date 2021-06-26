@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "linkedlist.h"
+#include <stdio.h>
 
 linkableNode *create_LinkableNode(int dataInput)
 {
@@ -67,23 +68,88 @@ int listInsert(linkedList *list, linkableNode *input)
     return result;
 }
 
+linkableNode *listFind(linkedList *list, int queryData)
+{
+    linkableNode *out = NULL;
+
+    if (list->len > 0)
+    {
+        linkableNode *current = *list->head;
+
+        for (int i = 0; i < list->len; i++)
+        {
+            if (queryData == current->data)
+            {
+                out = current;
+
+                break;
+            }
+
+            current = current->next;
+        }
+    }
+
+    return out;
+}
+
+int listRemove(linkedList *list, int queryData)
+{
+    int result = 0;
+
+    linkableNode *localNode = listFind(list, queryData);
+
+    if (localNode != NULL)
+    {
+        if (list->len == 1)
+        {
+            *list->head = NULL;
+            *list->tail = NULL;
+        }
+        else
+        {
+            if (list->type == SinglyLinkedList ||
+                list->type == CircularList)
+            {
+                _singly_ListRemove(list, localNode);
+            }
+            else if (list->type == DoublyLinkedList ||
+                     list->type == DoublyCircularList)
+            {
+                _doubly_ListRemove(list, localNode);
+            }
+        }
+
+        result = 1;
+        list->len--;
+        free(localNode);
+    }
+
+    return result;
+}
+
 void destroy_LinkedList(linkedList *list)
 {
-    linkableNode *pointers[list->len - 2];
 
-    int i = 0;
-    for (linkableNode *c = (*list->head)->next; c != *list->tail; c = c->next)
+    if (list->len > 0)
     {
-        pointers[i] = c;
-        i++;
+        linkableNode *pointers[list->len - 2];
+        int i = 0;
+
+        for (linkableNode *c = (*list->head)->next; c != *list->tail; c = c->next)
+        {
+            pointers[i] = c;
+            i++;
+        }
+
+        for (i--; i > -1; i--)
+        {
+            free(pointers[i]);
+        }
+        
+        free(*list->head);
+        free(*list->tail);
     }
 
-    for (i--; i > -1; i--)
-    {
-        free(pointers[i]);
-    }
-    free(*list->head);
-    free(*list->tail);
     free(list->head);
     free(list->tail);
 }
@@ -121,4 +187,47 @@ void _doublycirc_ListInsert(linkedList *list, linkableNode *input)
     _doubly_ListInsert(list, input);
     (*list->head)->previous = *list->tail;
     (*list->tail)->next = *list->head;
+}
+
+void _singly_ListRemove(linkedList *list, linkableNode *target)
+{
+    linkableNode *previousToTarget = *list->head;
+
+    for (int i = 0; i < list->len; i++)
+    {
+        if (previousToTarget->next == target)
+        {
+            previousToTarget->next = target->next;
+
+            break;
+        }
+        else
+        {
+            previousToTarget = previousToTarget->next;
+        }
+    }
+
+    if (target == *list->head)
+    {
+        *list->head = target->next;
+    }
+    else if (target == *list->tail)
+    {
+        *list->tail = previousToTarget;
+    }
+}
+
+void _doubly_ListRemove(linkedList *list, linkableNode *target)
+{
+    target->previous->next = target->next;
+    target->next->previous = target->previous;
+
+    if (target == *list->head)
+    {
+        *list->head = target->next;
+    }
+    else if (target == *list->tail)
+    {
+        *list->tail = target->previous;
+    }
 }

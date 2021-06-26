@@ -118,12 +118,19 @@ void displayGraphAdj(int order, graphVertex *nodes)
 
 void displayLinkedList(linkedList list)
 {
-    if (list.type == SinglyLinkedList || list.type == DoublyLinkedList)
+    if (list.len > 0)
     {
-        _displayList(list);
+        if (list.type == SinglyLinkedList || list.type == DoublyLinkedList)
+        {
+            _displayList(list);
+        }
+        else if (list.type == CircularList || list.type == DoublyCircularList)
+        {
+            _displayCircList(list);
+        }
     }
-    else if (list.type == CircularList || list.type == DoublyCircularList)
+    else
     {
-        _displayCircList(list);
+        printf("List is empty!\n");
     }
 }
