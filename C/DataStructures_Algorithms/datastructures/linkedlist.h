@@ -28,6 +28,7 @@ typedef struct LinkedList
 
 linkableNode *create_LinkableNode(int dataInput);
 linkedList create_LinkedList(int maxSize, char *label, listType type);
+int listInsert(linkedList *list, linkableNode *input);
 void destroy_LinkedList(linkedList *list);
 
 void _assignHead(linkedList *list, linkableNode *input);

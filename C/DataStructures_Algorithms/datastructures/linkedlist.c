@@ -29,6 +29,44 @@ linkedList create_LinkedList(int maxSize, char *label, listType type)
     return out;
 }
 
+int listInsert(linkedList *list, linkableNode *input)
+{
+    int result;
+
+    if (list->len == 0)
+    {
+        _assignHead(list, input);
+
+        result = 1;
+    }
+    else if (list->len + 1 <= list->_maxLen)
+    {
+        switch (list->type)
+        {
+        case SinglyLinked:
+            _base_ListInsert(list, input);
+            break;
+        case Circular:
+            _circ_ListInsert(list, input);
+            break;
+        case DoublyLinked:
+            _doubly_ListInsert(list, input);
+            break;
+        case DoublyCircular:
+            _doublycirc_ListInsert(list, input);
+            break;
+        }
+
+        result = 1;
+    }
+    else
+    {
+        result = 0;
+    }
+
+    return result;
+}
+
 void destroy_LinkedList(linkedList *list)
 {
     linkableNode *pointers[list->len - 2];
@@ -52,12 +90,6 @@ void destroy_LinkedList(linkedList *list)
 
 void _assignHead(linkedList *list, linkableNode *input)
 {
-    /*
-    If-blocks and calls to this will be later placed somewhere else
-    For now, insertions will be a bit verbose, at times redundant,
-    but the current implementation supports cleaner code with
-    little refactoring effort
-    */
     *list->head = input;
     *list->tail = input;
 
@@ -66,55 +98,28 @@ void _assignHead(linkedList *list, linkableNode *input)
 
 void _base_ListInsert(linkedList *list, linkableNode *input)
 {
-    if (list->len == 0)
-    {
-        _assignHead(list, input);
-    }
-    else
-    {
-        (*list->tail)->next = input;
-        *list->tail = input;
+    (*list->tail)->next = input;
+    *list->tail = input;
 
-        list->len++;
-    }
+    list->len++;
 }
 
 void _circ_ListInsert(linkedList *list, linkableNode *input)
 {
-    if (list->len == 0)
-    {
-        _assignHead(list, input);
-    }
-    else
-    {
-        input->next = *list->head;
-        _base_ListInsert(list, input);
-    }
+    input->next = *list->head;
+    _base_ListInsert(list, input);
 }
 
 void _doubly_ListInsert(linkedList *list, linkableNode *input)
 {
-    if (list->len == 0)
-    {
-        _assignHead(list, input);
-    }
-    else
-    {
-        input->previous = *list->tail;
-        _base_ListInsert(list, input);
-    }
+    input->previous = *list->tail;
+    _base_ListInsert(list, input);
 }
 
 void _doublycirc_ListInsert(linkedList *list, linkableNode *input)
 {
-    if (list->len == 0)
-    {
-        _assignHead(list, input);
-    }
-    else
-    {
-        _doubly_ListInsert(list, input);
-        (*list->head)->previous = *list->tail;
-        (*list->tail)->next = *list->head;
-    }
+
+    _doubly_ListInsert(list, input);
+    (*list->head)->previous = *list->tail;
+    (*list->tail)->next = *list->head;
 }
