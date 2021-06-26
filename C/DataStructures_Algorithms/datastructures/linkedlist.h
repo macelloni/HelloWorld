@@ -3,10 +3,10 @@
 
 typedef enum ListType
 {
-    SinglyLinked,
-    DoublyLinked,
-    Circular,
-    DoublyCircular
+    SinglyLinkedList,
+    DoublyLinkedList,
+    CircularList,
+    DoublyCircularList
 } listType;
 
 typedef struct LinkableNode

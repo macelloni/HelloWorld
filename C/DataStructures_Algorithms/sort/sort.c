@@ -104,6 +104,7 @@ sortResult _initSortResult(intArray input, methodEmployed arg)
     out.arr.name = malloc(strlen(input.name) + 24 * sizeof(char));
     sprintf(out.arr.name, "%s, sorted", input.name);
     out.arr.len = input.len;
+    
     out.arr.data = malloc(input.len * sizeof(int));
     for (int i = 0; i < input.len; i++)
     {

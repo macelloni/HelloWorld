@@ -28,8 +28,7 @@ void _displayLNode(linkableNode *ln)
         sprintf(nextData, "    Next: Null");
     }
 
-    printf("%s%s", previousData, nextData);
-    printf("\n");
+    printf("%s%s\n", previousData, nextData);
 }
 
 void _displayList(linkedList list)

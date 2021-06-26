@@ -43,16 +43,16 @@ int listInsert(linkedList *list, linkableNode *input)
     {
         switch (list->type)
         {
-        case SinglyLinked:
+        case SinglyLinkedList:
             _base_ListInsert(list, input);
             break;
-        case Circular:
+        case CircularList:
             _circ_ListInsert(list, input);
             break;
-        case DoublyLinked:
+        case DoublyLinkedList:
             _doubly_ListInsert(list, input);
             break;
-        case DoublyCircular:
+        case DoublyCircularList:
             _doublycirc_ListInsert(list, input);
             break;
         }
@@ -118,7 +118,6 @@ void _doubly_ListInsert(linkedList *list, linkableNode *input)
 
 void _doublycirc_ListInsert(linkedList *list, linkableNode *input)
 {
-
     _doubly_ListInsert(list, input);
     (*list->head)->previous = *list->tail;
     (*list->tail)->next = *list->head;

@@ -118,11 +118,11 @@ void displayGraphAdj(int order, graphVertex *nodes)
 
 void displayLinkedList(linkedList list)
 {
-    if (list.type == SinglyLinked || list.type == DoublyLinked)
+    if (list.type == SinglyLinkedList || list.type == DoublyLinkedList)
     {
         _displayList(list);
     }
-    else if (list.type == Circular || list.type == DoublyCircular)
+    else if (list.type == CircularList || list.type == DoublyCircularList)
     {
         _displayCircList(list);
     }
